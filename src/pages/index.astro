@@ -1,0 +1,154 @@
+---
+import BaseLayout from '../components/layout/BaseLayout.astro';
+import PillarCard from '../components/ui/PillarCard.astro';
+import ScrollReveal from '../components/ui/ScrollReveal.astro';
+---
+
+<BaseLayout
+  title="Sunith"
+  description="I build systems that survive pressure. Technology, programs, and people — at scale, under constraints."
+  showHeader={false}
+>
+  <section
+    class="hero"
+    oncontextmenu="return false"
+    ondragstart="return false"
+  >
+    <div class="hero-text">
+      <h1 class="hero-headline">
+        I build systems that<br />survive pressure.
+      </h1>
+      <p class="hero-sub">
+        Technology, programs, and people — at scale, under constraints.
+      </p>
+    </div>
+  </section>
+
+  <section class="pillars">
+    <div class="pillars-inner">
+      <PillarCard
+        href="/work/"
+        title="Work"
+        subtitle="What I've built when it mattered"
+      />
+      <PillarCard
+        href="/thinking/"
+        title="Thinking"
+        subtitle="How I reason"
+      />
+      <PillarCard
+        href="/expeditions/"
+        title="Expeditions"
+        subtitle="Where theory meets consequence"
+      />
+    </div>
+  </section>
+
+  <ScrollReveal />
+</BaseLayout>
+
+<style>
+  .hero {
+    position: relative;
+    min-height: 100dvh;
+    background-color: var(--color-bg);
+    background-image: url('/images/portrait_landscape.jpg');
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-blend-mode: luminosity;
+    filter: grayscale(1) brightness(0.85) contrast(1.15);
+    display: flex;
+    align-items: flex-end;
+    -webkit-user-select: none;
+    user-select: none;
+    -webkit-user-drag: none;
+  }
+
+  /* Top gradient — softens top edge into dark bg */
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to bottom,
+      var(--color-bg) 0%,
+      rgba(10, 10, 10, 0.4) 12%,
+      transparent 30%
+    );
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  /* Bottom gradient — fades portrait into background */
+  .hero::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to bottom,
+      transparent 35%,
+      rgba(10, 10, 10, 0.5) 60%,
+      var(--color-bg) 100%
+    );
+    pointer-events: none;
+  }
+
+  .hero-text {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    max-width: var(--content-width);
+    padding: 0 var(--content-padding) var(--space-2xl);
+  }
+
+  .hero-headline {
+    margin-bottom: var(--space-lg);
+    text-shadow: 0 2px 24px rgba(0, 0, 0, 0.6);
+    opacity: 0;
+    animation: fadeUp 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.15s forwards;
+  }
+
+  .hero-sub {
+    color: var(--color-text-secondary);
+    font-size: clamp(1.05rem, 1.5vw + 0.5rem, 1.25rem);
+    max-width: 36ch;
+    text-shadow: 0 1px 16px rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    animation: fadeUp 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.4s forwards;
+  }
+
+  @keyframes fadeUp {
+    from {
+      opacity: 0;
+      transform: translateY(1.5rem);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .pillars {
+    padding: var(--space-2xl) var(--content-padding) var(--space-3xl);
+  }
+
+  .pillars-inner {
+    max-width: var(--content-width);
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background-color: var(--color-border);
+  }
+
+  @media (max-width: 768px) {
+    .pillars-inner {
+      grid-template-columns: 1fr;
+    }
+
+    .hero-text {
+      padding-bottom: var(--space-xl);
+    }
+  }
+</style>

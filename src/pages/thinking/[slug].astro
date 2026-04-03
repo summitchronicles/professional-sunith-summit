@@ -1,0 +1,99 @@
+---
+import BaseLayout from '../../components/layout/BaseLayout.astro';
+import ScrollReveal from '../../components/ui/ScrollReveal.astro';
+import { getCollection, render } from 'astro:content';
+
+export async function getStaticPaths() {
+  const entries = await getCollection('thinking');
+  return entries.map((entry) => ({
+    params: { slug: entry.id.replace(/\.(mdx?|md)$/, '') },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const { title, subtitle, readingTime } = entry.data;
+---
+
+<BaseLayout title={title} description={entry.data.summary}>
+  <article class="essay">
+    <header class="essay-header">
+      <a href="/thinking/" class="back-link mono reveal">&larr; Thinking</a>
+      <span class="mono reveal">{readingTime} min</span>
+      <h1 class="reveal">{title}</h1>
+      {subtitle && <p class="essay-subtitle reveal">{subtitle}</p>}
+    </header>
+
+    <div class="essay-body prose protected-content reveal">
+      <Content />
+    </div>
+  </article>
+
+  <ScrollReveal />
+</BaseLayout>
+
+<style>
+  .essay {
+    max-width: var(--measure);
+    margin: 0 auto;
+    padding: 0 var(--content-padding);
+  }
+
+  .essay-header {
+    padding: var(--space-3xl) 0 var(--space-xl);
+  }
+
+  .back-link {
+    display: inline-block;
+    margin-bottom: var(--space-xl);
+    color: var(--color-text-muted);
+    transition: color var(--transition-slow);
+  }
+
+  .back-link:hover {
+    color: var(--color-text-primary);
+  }
+
+  .essay-header .mono {
+    display: block;
+    margin-bottom: var(--space-md);
+  }
+
+  .essay-subtitle {
+    color: var(--color-text-secondary);
+    font-style: italic;
+    margin-top: var(--space-sm);
+    font-size: 1.2rem;
+  }
+
+  .essay-body {
+    max-width: var(--measure);
+  }
+
+  .essay-body :global(p) {
+    margin-bottom: var(--space-lg);
+    color: var(--color-text-secondary);
+    line-height: 1.85;
+  }
+
+  .essay-body :global(p:last-child) {
+    margin-bottom: 0;
+  }
+
+  .essay-body :global(strong) {
+    color: var(--color-text-primary);
+    font-weight: 400;
+    font-style: italic;
+  }
+
+  .essay-body :global(blockquote) {
+    border-left: 2px solid var(--color-accent);
+    padding-left: var(--space-md);
+    margin: var(--space-xl) 0;
+  }
+
+  .essay-body :global(blockquote p) {
+    color: var(--color-text-primary);
+  }
+</style>

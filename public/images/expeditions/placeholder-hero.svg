@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600">
+  <rect width="1200" height="600" fill="#141414"/>
+  <path d="M200 500 L500 200 L700 350 L900 150 L1100 500" fill="none" stroke="#222" stroke-width="2"/>
+  <text x="600" y="300" text-anchor="middle" dominant-baseline="middle" fill="#333" font-family="monospace" font-size="14">EXPEDITION IMAGE</text>
+</svg>

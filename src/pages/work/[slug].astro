@@ -1,0 +1,86 @@
+---
+import BaseLayout from '../../components/layout/BaseLayout.astro';
+import CaseStudySection from '../../components/ui/CaseStudySection.astro';
+import ProtectedImage from '../../components/ui/ProtectedImage.astro';
+import ScrollReveal from '../../components/ui/ScrollReveal.astro';
+import { getCollection, render } from 'astro:content';
+
+export async function getStaticPaths() {
+  const entries = await getCollection('work');
+  return entries.map((entry) => ({
+    params: { slug: entry.id.replace(/\.(mdx?|md)$/, '') },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const { title, year, role, duration, heroImage, summary, context, constraint, decision, outcome, scar } = entry.data;
+---
+
+<BaseLayout title={title} description={summary}>
+  <article class="case-study">
+    <header class="case-header">
+      <a href="/work/" class="back-link mono reveal">&larr; Work</a>
+      <div class="case-meta reveal">
+        <span class="mono">{year}{duration ? ` — ${duration}` : ''}</span>
+        <span class="mono">{role}</span>
+      </div>
+      <h1 class="reveal">{title}</h1>
+    </header>
+
+    <div class="case-hero reveal">
+      <ProtectedImage src={heroImage} alt={title} useCanvas={true} />
+    </div>
+
+    <div class="case-body">
+      <CaseStudySection label="Context" content={context} />
+      <CaseStudySection label="Constraint" content={constraint} />
+      <CaseStudySection label="Decision" content={decision} />
+      <CaseStudySection label="Outcome" content={outcome} />
+      <CaseStudySection label="Scar" content={scar} accent={true} />
+    </div>
+  </article>
+
+  <ScrollReveal />
+</BaseLayout>
+
+<style>
+  .case-study {
+    max-width: var(--content-width);
+    margin: 0 auto;
+    padding: 0 var(--content-padding);
+  }
+
+  .case-header {
+    max-width: var(--measure);
+    margin: 0 auto;
+    padding: var(--space-3xl) 0 var(--space-xl);
+  }
+
+  .back-link {
+    display: inline-block;
+    margin-bottom: var(--space-xl);
+    color: var(--color-text-muted);
+    transition: color var(--transition-slow);
+  }
+
+  .back-link:hover {
+    color: var(--color-text-primary);
+  }
+
+  .case-meta {
+    display: flex;
+    gap: var(--space-lg);
+    margin-bottom: var(--space-md);
+  }
+
+  .case-hero {
+    margin-bottom: var(--space-2xl);
+  }
+
+  .case-body {
+    max-width: var(--measure);
+    margin: 0 auto;
+  }
+</style>

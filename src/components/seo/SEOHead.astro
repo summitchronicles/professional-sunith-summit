@@ -1,0 +1,76 @@
+---
+interface Props {
+  title: string;
+  description: string;
+  ogImage?: string;
+  canonicalUrl?: string;
+}
+
+const {
+  title,
+  description,
+  ogImage = '/og-default.png',
+  canonicalUrl,
+} = Astro.props;
+
+const siteTitle = 'Sunith';
+const fullTitle = title === siteTitle ? title : `${title} — ${siteTitle}`;
+const canonical = canonicalUrl || Astro.url.href;
+const iconVersion = '20260224';
+const iconPath = (path: string) => `${path}?v=${iconVersion}`;
+---
+
+<!-- Primary Meta -->
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>{fullTitle}</title>
+<meta name="description" content={description} />
+<meta name="author" content="Sunith" />
+<link rel="canonical" href={canonical} />
+
+<!-- Favicon -->
+<link rel="icon" href={iconPath('/favicon.ico')} sizes="any" />
+<link rel="shortcut icon" href={iconPath('/favicon.ico')} />
+<link
+  rel="icon"
+  type="image/png"
+  sizes="32x32"
+  href={iconPath('/favicon-32x32.png')}
+/>
+<link
+  rel="icon"
+  type="image/png"
+  sizes="16x16"
+  href={iconPath('/favicon-16x16.png')}
+/>
+<link
+  rel="apple-touch-icon"
+  sizes="180x180"
+  href={iconPath('/apple-touch-icon.png')}
+/>
+<meta name="theme-color" content="#0a0a0a" />
+
+<!-- Font preload -->
+<link
+  rel="preload"
+  href="/fonts/InstrumentSerif-Regular.woff2"
+  as="font"
+  type="font/woff2"
+  crossorigin
+/>
+
+<!-- Open Graph -->
+<meta property="og:type" content="website" />
+<meta property="og:title" content={fullTitle} />
+<meta property="og:description" content={description} />
+<meta property="og:image" content={ogImage} />
+<meta property="og:url" content={canonical} />
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={fullTitle} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={ogImage} />
+
+<!-- Prevent indexing of images by AI crawlers -->
+<meta name="robots" content="noai, noimageai" />

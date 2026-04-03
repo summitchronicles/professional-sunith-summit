@@ -1,0 +1,42 @@
+---
+import SEOHead from '../seo/SEOHead.astro';
+import Header from './Header.astro';
+import Footer from './Footer.astro';
+import '../../styles/global.css';
+
+interface Props {
+  title: string;
+  description: string;
+  ogImage?: string;
+  showHeader?: boolean;
+  showFooter?: boolean;
+}
+
+const {
+  title,
+  description,
+  ogImage,
+  showHeader = true,
+  showFooter = true,
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <SEOHead title={title} description={description} ogImage={ogImage} />
+  </head>
+  <body>
+    {showHeader && <Header />}
+    <main class:list={[{ 'has-header': showHeader }]}>
+      <slot />
+    </main>
+    {showFooter && <Footer />}
+  </body>
+</html>
+
+<style>
+  main.has-header {
+    padding-top: 4rem; /* Clear fixed header */
+  }
+</style>

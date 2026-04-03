@@ -1,0 +1,83 @@
+---
+import BaseLayout from '../../components/layout/BaseLayout.astro';
+import ScrollReveal from '../../components/ui/ScrollReveal.astro';
+import { getCollection } from 'astro:content';
+
+const allThinking = (await getCollection('thinking'))
+  .filter((entry) => !entry.data.draft)
+  .sort((a, b) => b.data.publishDate.getTime() - a.data.publishDate.getTime());
+---
+
+<BaseLayout
+  title="Thinking"
+  description="How I reason. Short essays on leadership, systems, risk, and the discipline of clear thinking."
+>
+  <section class="page-header">
+    <div class="page-header-inner">
+      <h1 class="reveal">How I reason</h1>
+    </div>
+  </section>
+
+  <section class="essay-list">
+    <div class="essay-list-inner">
+      {allThinking.map((entry) => (
+        <a href={`/thinking/${entry.id.replace(/\.(mdx?|md)$/, '')}/`} class="essay-card reveal">
+          <h2>{entry.data.title}</h2>
+          <span class="mono">
+            {entry.data.readingTime} min
+          </span>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <ScrollReveal />
+</BaseLayout>
+
+<style>
+  .page-header {
+    padding: var(--space-3xl) var(--content-padding) var(--space-xl);
+  }
+
+  .page-header-inner {
+    max-width: var(--content-width);
+    margin: 0 auto;
+  }
+
+  .essay-list {
+    padding: 0 var(--content-padding) var(--space-3xl);
+  }
+
+  .essay-list-inner {
+    max-width: var(--measure);
+    margin: 0 auto;
+  }
+
+  .essay-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: var(--space-lg) 0;
+    border-bottom: 1px solid var(--color-border);
+    transition: border-color var(--transition-slow);
+    gap: var(--space-lg);
+  }
+
+  .essay-card:first-child {
+    border-top: 1px solid var(--color-border);
+  }
+
+  .essay-card:hover {
+    border-color: var(--color-text-muted);
+    color: var(--color-text-primary);
+  }
+
+  .essay-card h2 {
+    font-size: clamp(1.1rem, 2vw, 1.5rem);
+  }
+
+  .essay-card .mono {
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+</style>

@@ -1,0 +1,105 @@
+@import './reset.css';
+@import './tokens.css';
+
+@font-face {
+  font-family: 'Instrument Serif';
+  src: url('/fonts/InstrumentSerif-Regular.woff2') format('woff2');
+  font-display: swap;
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Instrument Serif';
+  src: url('/fonts/InstrumentSerif-Italic.woff2') format('woff2');
+  font-display: swap;
+  font-weight: 400;
+  font-style: italic;
+}
+
+body {
+  font-family: var(--font-family);
+  background-color: var(--color-bg);
+  color: var(--color-text-primary);
+  font-size: 1.25rem;
+  line-height: 1.7;
+  letter-spacing: -0.01em;
+}
+
+h1 {
+  font-size: clamp(2.5rem, 5vw + 1rem, 4.5rem);
+  line-height: 1.08;
+  letter-spacing: -0.035em;
+  font-weight: 400;
+}
+
+h2 {
+  font-size: clamp(1.5rem, 3vw + 0.5rem, 2.25rem);
+  line-height: 1.15;
+  letter-spacing: -0.025em;
+  font-weight: 400;
+}
+
+.prose {
+  max-width: var(--measure);
+}
+
+.prose p {
+  margin-bottom: var(--space-md);
+  color: var(--color-text-secondary);
+}
+
+.prose p:last-child {
+  margin-bottom: 0;
+}
+
+.prose strong {
+  color: var(--color-text-primary);
+  font-weight: 400;
+  font-style: italic;
+}
+
+.mono {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  letter-spacing: 0.05em;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+}
+
+::selection {
+  background-color: var(--color-accent-muted);
+  color: var(--color-text-primary);
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(0.75rem);
+  transition: opacity var(--transition-reveal), transform var(--transition-reveal);
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.protected-content {
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+@media print {
+  .protected-content {
+    display: none !important;
+  }
+
+  body::after {
+    content: 'This content is protected. Visit the original site to view.';
+    display: block;
+    font-size: 1.5rem;
+    text-align: center;
+    padding: var(--space-xl);
+    color: var(--color-text-secondary);
+  }
+}

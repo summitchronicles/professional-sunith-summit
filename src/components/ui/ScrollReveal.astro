@@ -1,0 +1,33 @@
+---
+// This component initializes the IntersectionObserver for all .reveal elements.
+// Include it once in the layout or on pages that use scroll reveals.
+---
+
+<script>
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    },
+    {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px',
+    }
+  );
+
+  function initReveals() {
+    document.querySelectorAll('.reveal').forEach((el) => {
+      observer.observe(el);
+    });
+  }
+
+  // Run on initial load
+  initReveals();
+
+  // Re-run after View Transitions navigation
+  document.addEventListener('astro:after-swap', initReveals);
+</script>
