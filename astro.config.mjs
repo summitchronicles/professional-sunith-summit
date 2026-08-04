@@ -4,9 +4,7 @@ import { defineConfig } from 'astro/config';
 import mdx from '@astrojs/mdx';
 import sitemap from '@astrojs/sitemap';
 
-const siteUrl =
-  process.env.SITE_URL ||
-  (process.env.CF_PAGES_URL ? `https://${process.env.CF_PAGES_URL}` : 'https://sunith.dev');
+const siteUrl = process.env.SITE_URL || 'https://sunithkumar.is-a.dev';
 
 // https://astro.build/config
 export default defineConfig({

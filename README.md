@@ -1,48 +1,58 @@
-# Summit Site
+# Sunith Kumar Portfolio
 
-Astro static site configured for Cloudflare Pages.
+Astro static site hosted on GitHub Pages.
 
-## Local
+- Production: <https://sunithkumar.is-a.dev>
+- Repository: <https://github.com/summitchronicles/professional-sunith-summit>
+
+## Local Development
 
 ```sh
 npm install
 npm run dev
 ```
 
-## Deploy To Cloudflare Pages (Free)
+## Automatic Deployment
 
-This repo is set up for the best fast path: Cloudflare `pages.dev`.
+Pushes to `main` are built and deployed by GitHub Actions. No hosting API token
+is required.
 
-1. Build once locally:
+Configure the repository once under **Settings > Pages**:
+
+1. Set **Source** to **GitHub Actions**.
+2. Set the custom domain to `sunithkumar.is-a.dev`.
+3. Enable **Enforce HTTPS** after the certificate becomes available.
+
+The normal update flow is:
+
 ```sh
-npm run build
-```
-2. Log in to Cloudflare:
-```sh
-npx wrangler login
-```
-3. Create the Pages project (run once):
-```sh
-npx wrangler pages project create summit --production-branch main
-```
-4. Deploy:
-```sh
-npx wrangler pages deploy dist --project-name summit
+git add .
+git commit -m "Describe the update"
+git push origin main
 ```
 
-The live URL will be:
-`https://summit.pages.dev` (or a variant if that name is taken).
+The deployment can also be started from the repository's **Actions** tab using
+the **Run workflow** button.
 
-## Optional Free Branded Domain Later
+## Custom Domain
 
-After `pages.dev` is live, connect a free subdomain such as `*.is-a.dev`:
-1. Register and get approval on is-a.dev.
-2. In Cloudflare Pages, add the custom domain.
-3. Follow the DNS/CNAME instructions shown by Cloudflare.
+The `is-a.dev` DNS record must point to GitHub Pages:
+
+```json
+{
+  "owner": {
+    "username": "summitchronicles"
+  },
+  "records": {
+    "CNAME": "summitchronicles.github.io"
+  }
+}
+```
+
+This is a one-time DNS migration. Future site updates require only a push to
+`main`.
 
 ## Domain-Aware SEO
 
-`astro.config.mjs` and `src/pages/robots.txt.ts` automatically use:
-1. `SITE_URL` if set.
-2. Otherwise `CF_PAGES_URL` on Cloudflare Pages.
-3. Otherwise fallback to `https://sunith.dev`.
+`astro.config.mjs` and `src/pages/robots.txt.ts` use `SITE_URL` when explicitly
+set and otherwise default to `https://sunithkumar.is-a.dev`.

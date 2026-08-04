@@ -1,8 +1,6 @@
 import type { APIRoute } from 'astro';
 
-const siteUrl =
-  process.env.SITE_URL ||
-  (process.env.CF_PAGES_URL ? `https://${process.env.CF_PAGES_URL}` : 'https://sunith.dev');
+const siteUrl = process.env.SITE_URL || 'https://sunithkumar.is-a.dev';
 
 const normalizedSiteUrl = siteUrl.replace(/\/+$/, '');
 
