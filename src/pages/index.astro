@@ -1,0 +1,414 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../components/layout/BaseLayout.astro';
+import ScrollReveal from '../components/ui/ScrollReveal.astro';
+
+const thoughts = (await getCollection('thinking', ({ data }) => !data.draft)).sort(
+  (a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf()
+);
+const featured =
+  thoughts.find((entry) =>
+    entry.id.includes('what-engineering-leadership-must-become')
+  ) ?? thoughts[0];
+const otherThoughts = thoughts.filter((entry) => entry.id !== featured.id);
+const expeditions = await getCollection('expeditions', ({ data }) => !data.draft);
+
+const contentHref = (section: string, id: string) =>
+  `/${section}/${id.replace(/\.(mdx?|md)$/, '')}/`;
+const formatDate = (date: Date) =>
+  new Intl.DateTimeFormat('en', { month: 'short', year: 'numeric' }).format(date);
+---
+
+<BaseLayout
+  title="Sunith"
+  description="Engineering leadership, AI operating models, and systems designed to hold up under pressure."
+  showHeader={false}
+>
+  <header class="masthead">
+    <a href="/" class="brand" aria-label="Sunith Kumar Kokku home">
+      <img
+        src="/images/logo-mark-320.png"
+        srcset="/images/logo-mark-320.png 1x, /images/logo-mark-640.png 2x"
+        width="320"
+        height="324"
+        alt=""
+      />
+      <span>Sunith Kumar Kokku</span>
+    </a>
+    <nav aria-label="Primary navigation">
+      <a href="#thinking">Thinking</a>
+      <a href="#expeditions">Expeditions</a>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <div class="hero-shade" aria-hidden="true"></div>
+    <div class="hero-copy">
+      <p class="eyebrow">Engineering leadership · AI · transformation</p>
+      <h1>I build systems that<br />survive pressure.</h1>
+      <p class="hero-summary">
+        Technology, operating models, and teams designed to remain useful when
+        scale and uncertainty arrive.
+      </p>
+      <a class="hero-link" href={contentHref('thinking', featured.id)}>
+        Read the latest thinking <span aria-hidden="true">↗</span>
+      </a>
+    </div>
+  </section>
+
+  <section class="thinking section" id="thinking">
+    <div class="section-label reveal">
+      <span class="mono">01 / Thinking</span>
+      <span class="rule"></span>
+    </div>
+
+    <a class="featured reveal" href={contentHref('thinking', featured.id)}>
+      <div class="featured-meta mono">
+        <span>{formatDate(featured.data.publishDate)}</span>
+        <span>{featured.data.readingTime} min read</span>
+      </div>
+      <h2>{featured.data.title}</h2>
+      <p>{featured.data.summary}</p>
+      <span class="read-link">Read essay <span aria-hidden="true">↗</span></span>
+    </a>
+
+    {otherThoughts.length > 0 && (
+      <div class="essay-list">
+        {otherThoughts.map((thought) => (
+          <a class="essay-row reveal" href={contentHref('thinking', thought.id)}>
+            <span>{thought.data.title}</span>
+            <span class="mono">{thought.data.readingTime} min ↗</span>
+          </a>
+        ))}
+      </div>
+    )}
+  </section>
+
+  {expeditions.length > 0 && (
+    <section class="expeditions section" id="expeditions">
+      <div class="section-label reveal">
+        <span class="mono">02 / Expeditions</span>
+        <span class="rule"></span>
+      </div>
+      {expeditions.map((expedition) => (
+        <a
+          class="expedition-card reveal"
+          href={contentHref('expeditions', expedition.id)}
+        >
+          <div class="expedition-image" style={`background-image: url('${expedition.data.heroImage}')`}>
+            <div class="expedition-overlay"></div>
+          </div>
+          <div class="expedition-copy">
+            <span class="mono">{expedition.data.region} · {expedition.data.elevation}</span>
+            <h2>{expedition.data.mountain}</h2>
+            <p>{expedition.data.summary}</p>
+            <span class="read-link">View field note <span aria-hidden="true">↗</span></span>
+          </div>
+        </a>
+      ))}
+    </section>
+  )}
+
+  <ScrollReveal />
+</BaseLayout>
+
+<style>
+  .masthead {
+    position: absolute;
+    inset: 0 0 auto;
+    z-index: 10;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--space-lg) var(--content-padding);
+    max-width: calc(var(--content-width) + (2 * var(--content-padding)));
+    margin: 0 auto;
+  }
+
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 1rem;
+    letter-spacing: 0.01em;
+  }
+
+  .brand img {
+    width: 1.8rem;
+    height: auto;
+    filter: brightness(1.35) contrast(1.08);
+  }
+
+  .masthead nav {
+    display: flex;
+    gap: var(--space-lg);
+    font-size: 0.95rem;
+    color: var(--color-text-secondary);
+  }
+
+  .masthead a {
+    transition: color var(--transition-slow), opacity var(--transition-slow);
+  }
+
+  .masthead a:hover {
+    color: var(--color-text-primary);
+  }
+
+  .hero {
+    position: relative;
+    min-height: 100dvh;
+    display: flex;
+    align-items: flex-end;
+    background: var(--color-bg) url('/images/portrait_landscape.jpg') center / cover no-repeat;
+    isolation: isolate;
+  }
+
+  .hero-shade {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background:
+      linear-gradient(180deg, rgba(10, 10, 10, 0.82) 0%, transparent 32%),
+      linear-gradient(90deg, rgba(10, 10, 10, 0.9) 0%, rgba(10, 10, 10, 0.3) 62%, rgba(10, 10, 10, 0.5) 100%),
+      linear-gradient(0deg, var(--color-bg) 0%, transparent 48%);
+  }
+
+  .hero-copy {
+    width: 100%;
+    max-width: var(--content-width);
+    margin: 0 auto;
+    padding: 0 var(--content-padding) clamp(5rem, 12vh, 8rem);
+  }
+
+  .eyebrow {
+    margin-bottom: var(--space-md);
+    color: var(--color-text-secondary);
+    font-family: var(--font-mono);
+    font-size: 0.74rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    opacity: 0;
+    animation: enter 900ms 100ms forwards;
+  }
+
+  .hero h1 {
+    max-width: 13ch;
+    font-size: clamp(3.25rem, 8vw, 7.5rem);
+    line-height: 0.93;
+    letter-spacing: -0.055em;
+    text-shadow: 0 2px 28px rgba(0, 0, 0, 0.55);
+    opacity: 0;
+    animation: enter 1100ms 200ms forwards;
+  }
+
+  .hero-summary {
+    max-width: 37ch;
+    margin-top: var(--space-lg);
+    color: var(--color-text-secondary);
+    font-size: clamp(1.05rem, 2vw, 1.35rem);
+    opacity: 0;
+    animation: enter 1000ms 400ms forwards;
+  }
+
+  .hero-link,
+  .read-link {
+    display: inline-flex;
+    gap: 0.5rem;
+    align-items: center;
+    margin-top: var(--space-lg);
+    color: var(--color-text-primary);
+    font-size: 1rem;
+  }
+
+  .hero-link {
+    opacity: 0;
+    animation: enter 1000ms 550ms forwards;
+  }
+
+  @keyframes enter {
+    from { opacity: 0; transform: translateY(1.25rem); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .section {
+    max-width: var(--content-width);
+    margin: 0 auto;
+    padding: var(--space-3xl) var(--content-padding) 0;
+    scroll-margin-top: var(--space-lg);
+  }
+
+  .section-label {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    margin-bottom: var(--space-xl);
+  }
+
+  .rule {
+    height: 1px;
+    flex: 1;
+    background: var(--color-border);
+  }
+
+  .featured {
+    display: block;
+    max-width: 54rem;
+  }
+
+  .featured-meta {
+    display: flex;
+    gap: var(--space-lg);
+    margin-bottom: var(--space-md);
+  }
+
+  .featured h2 {
+    font-size: clamp(2.5rem, 6vw, 5.8rem);
+    line-height: 0.98;
+    letter-spacing: -0.045em;
+    transition: color var(--transition-slow);
+  }
+
+  .featured > p {
+    max-width: 48ch;
+    margin-top: var(--space-lg);
+    color: var(--color-text-secondary);
+  }
+
+  .featured:hover h2,
+  .essay-row:hover,
+  .expedition-card:hover h2 {
+    color: var(--color-accent);
+  }
+
+  .essay-list {
+    margin-top: var(--space-2xl);
+    border-top: 1px solid var(--color-border);
+  }
+
+  .essay-row {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--space-lg);
+    padding: var(--space-lg) 0;
+    border-bottom: 1px solid var(--color-border);
+    transition: color var(--transition-slow);
+  }
+
+  .expedition-card {
+    display: grid;
+    grid-template-columns: minmax(0, 1.4fr) minmax(18rem, 0.8fr);
+    min-height: 29rem;
+    background: var(--color-surface);
+  }
+
+  .expedition-image {
+    position: relative;
+    min-height: 24rem;
+    background-position: center;
+    background-size: cover;
+    filter: grayscale(1) contrast(1.08);
+    overflow: hidden;
+  }
+
+  .expedition-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, transparent 60%, var(--color-surface));
+  }
+
+  .expedition-copy {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: var(--space-xl);
+  }
+
+  .expedition-copy h2 {
+    margin: var(--space-md) 0;
+    transition: color var(--transition-slow);
+  }
+
+  .expedition-copy p {
+    color: var(--color-text-secondary);
+    font-size: 1.05rem;
+  }
+
+  @media (max-width: 760px) {
+    .masthead {
+      width: 100vw;
+      max-width: none;
+      padding-top: var(--space-md);
+    }
+
+    .brand span {
+      display: none;
+    }
+
+    .masthead nav {
+      gap: var(--space-md);
+      font-size: 0.88rem;
+    }
+
+    .hero {
+      min-height: 90dvh;
+      background-position: 58% center;
+    }
+
+    .hero-shade {
+      background:
+        linear-gradient(180deg, rgba(10, 10, 10, 0.75) 0%, transparent 28%),
+        linear-gradient(0deg, var(--color-bg) 0%, rgba(10, 10, 10, 0.2) 66%),
+        linear-gradient(90deg, rgba(10, 10, 10, 0.72), transparent);
+    }
+
+    .hero h1 {
+      max-width: 10ch;
+      font-size: clamp(2.75rem, 12vw, 4.25rem);
+    }
+
+    .hero h1 br {
+      display: none;
+    }
+
+    .section {
+      padding-top: var(--space-2xl);
+    }
+
+    .featured h2 {
+      font-size: clamp(2.35rem, 12vw, 4rem);
+    }
+
+    .essay-row {
+      align-items: flex-start;
+      flex-direction: column;
+      gap: var(--space-sm);
+    }
+
+    .expedition-card {
+      grid-template-columns: 1fr;
+    }
+
+    .expedition-image {
+      min-height: 18rem;
+    }
+
+    .expedition-overlay {
+      background: linear-gradient(0deg, var(--color-surface), transparent 55%);
+    }
+
+    .expedition-copy {
+      padding: var(--space-lg);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .eyebrow,
+    .hero h1,
+    .hero-summary,
+    .hero-link {
+      opacity: 1;
+      animation: none;
+    }
+  }
+</style>

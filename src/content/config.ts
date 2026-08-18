@@ -1,24 +1,5 @@
 import { defineCollection, z } from 'astro:content';
 
-const work = defineCollection({
-  type: 'content',
-  schema: z.object({
-    title: z.string(),
-    year: z.string(),
-    role: z.string(),
-    duration: z.string().optional(),
-    heroImage: z.string(),
-    summary: z.string().max(200),
-    context: z.string(),
-    constraint: z.string(),
-    decision: z.string(),
-    outcome: z.string(),
-    scar: z.string(),
-    sortOrder: z.number(),
-    draft: z.boolean().default(false),
-  }),
-});
-
 const thinking = defineCollection({
   type: 'content',
   schema: z.object({
@@ -47,4 +28,4 @@ const expeditions = defineCollection({
   }),
 });
 
-export const collections = { work, thinking, expeditions };
+export const collections = { thinking, expeditions };

@@ -2,9 +2,8 @@
 const currentPath = Astro.url.pathname;
 
 const links = [
-  { href: '/work/', label: 'Work' },
-  { href: '/thinking/', label: 'Thinking' },
-  { href: '/expeditions/', label: 'Expeditions' },
+  { href: '/#thinking', label: 'Thinking' },
+  { href: '/#expeditions', label: 'Expeditions' },
 ];
 ---
 
@@ -26,7 +25,7 @@ const links = [
         <li>
           <a
             href={href}
-            class:list={['nav-link', { active: currentPath.startsWith(href) }]}
+            class:list={['nav-link', { active: currentPath.startsWith(`/${label.toLowerCase()}/`) }]}
           >
             {label}
           </a>
