@@ -73,33 +73,17 @@ h2 {
 }
 
 .reveal {
+  opacity: 1;
+  transform: none;
+}
+
+.motion-ready .reveal {
   opacity: 0;
   transform: translateY(0.75rem);
   transition: opacity var(--transition-reveal), transform var(--transition-reveal);
 }
 
-.reveal.visible {
+.motion-ready .reveal.visible {
   opacity: 1;
   transform: translateY(0);
-}
-
-.protected-content {
-  -webkit-user-select: none;
-  user-select: none;
-  -webkit-user-drag: none;
-}
-
-@media print {
-  .protected-content {
-    display: none !important;
-  }
-
-  body::after {
-    content: 'This content is protected. Visit the original site to view.';
-    display: block;
-    font-size: 1.5rem;
-    text-align: center;
-    padding: var(--space-xl);
-    color: var(--color-text-secondary);
-  }
 }

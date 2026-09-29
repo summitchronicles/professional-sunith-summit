@@ -1,11 +1,10 @@
 ---
 import BaseLayout from '../../components/layout/BaseLayout.astro';
-import ProtectedImage from '../../components/ui/ProtectedImage.astro';
 import ScrollReveal from '../../components/ui/ScrollReveal.astro';
 import { getCollection, render } from 'astro:content';
 
 export async function getStaticPaths() {
-  const entries = await getCollection('expeditions');
+  const entries = await getCollection('expeditions', ({ data }) => !data.draft);
   return entries.map((entry) => ({
     params: { slug: entry.id.replace(/\.(mdx?|md)$/, '') },
     props: { entry },
@@ -29,11 +28,13 @@ const { mountain, elevation, region, country, date, duration, heroImage } = entr
       <h1 class="reveal">{mountain}</h1>
     </header>
 
-    <div class="expedition-hero reveal">
-      <ProtectedImage src={heroImage} alt={mountain} useCanvas={true} aspectRatio="21 / 9" />
-    </div>
+    {heroImage && (
+      <div class="expedition-hero reveal">
+        <img src={heroImage} alt={`${mountain} expedition`} loading="lazy" />
+      </div>
+    )}
 
-    <div class="expedition-body prose protected-content reveal">
+    <div class="expedition-body prose reveal">
       <Content />
     </div>
   </article>
@@ -73,6 +74,12 @@ const { mountain, elevation, region, country, date, duration, heroImage } = entr
 
   .expedition-hero {
     margin-bottom: var(--space-2xl);
+  }
+
+  .expedition-hero img {
+    width: 100%;
+    aspect-ratio: 21 / 9;
+    object-fit: cover;
   }
 
   .expedition-body {

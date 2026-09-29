@@ -4,7 +4,7 @@ import ScrollReveal from '../../components/ui/ScrollReveal.astro';
 import { getCollection, render } from 'astro:content';
 
 export async function getStaticPaths() {
-  const entries = await getCollection('thinking');
+  const entries = await getCollection('thinking', ({ data }) => !data.draft);
   return entries.map((entry) => ({
     params: { slug: entry.id.replace(/\.(mdx?|md)$/, '') },
     props: { entry },
@@ -13,19 +13,20 @@ export async function getStaticPaths() {
 
 const { entry } = Astro.props;
 const { Content } = await render(entry);
-const { title, subtitle, readingTime } = entry.data;
+const { title, subtitle, readingTime, publishDate } = entry.data;
+const published = new Intl.DateTimeFormat('en', { month: 'long', year: 'numeric' }).format(publishDate);
 ---
 
 <BaseLayout title={title} description={entry.data.summary}>
   <article class="essay">
     <header class="essay-header">
       <a href="/#thinking" class="back-link mono reveal">&larr; Thinking</a>
-      <span class="mono reveal">{readingTime} min</span>
+      <span class="mono reveal">{published} / {readingTime} min read</span>
       <h1 class="reveal">{title}</h1>
       {subtitle && <p class="essay-subtitle reveal">{subtitle}</p>}
     </header>
 
-    <div class="essay-body prose protected-content reveal">
+    <div class="essay-body prose reveal">
       <Content />
     </div>
   </article>

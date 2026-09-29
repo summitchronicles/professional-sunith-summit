@@ -6,7 +6,6 @@ region: "Annapurna Conservation Area"
 country: "Nepal"
 date: "2023-10-15"
 duration: "10 days"
-heroImage: "/images/expeditions/placeholder-hero.svg"
 summary: "A trek into the Annapurna Sanctuary — where the mountain teaches you that preparation is not the same as readiness."
 ---
 

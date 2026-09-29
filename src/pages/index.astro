@@ -11,6 +11,9 @@ const featured =
     entry.id.includes('what-engineering-leadership-must-become')
   ) ?? thoughts[0];
 const otherThoughts = thoughts.filter((entry) => entry.id !== featured.id);
+const work = (await getCollection('work', ({ data }) => !data.draft)).sort(
+  (a, b) => a.data.order - b.data.order
+);
 const expeditions = await getCollection('expeditions', ({ data }) => !data.draft);
 
 const contentHref = (section: string, id: string) =>
@@ -20,8 +23,8 @@ const formatDate = (date: Date) =>
 ---
 
 <BaseLayout
-  title="Sunith"
-  description="Engineering leadership, AI operating models, and systems designed to hold up under pressure."
+  title="Sunith Kumar Kokku | Engineering leadership and AI"
+  description="Engineering leadership, AI adoption, and reliable systems. Explore Sunith Kumar Kokku's work, writing, and approach."
   showHeader={false}
 >
   <header class="masthead">
@@ -36,29 +39,83 @@ const formatDate = (date: Date) =>
       <span>Sunith Kumar Kokku</span>
     </a>
     <nav aria-label="Primary navigation">
+      <a href="#work">Work</a>
       <a href="#thinking">Thinking</a>
-      <a href="#expeditions">Expeditions</a>
+      <a href="#contact">Contact</a>
     </nav>
   </header>
 
   <section class="hero">
+    <div class="hero-portrait" aria-hidden="true"></div>
     <div class="hero-shade" aria-hidden="true"></div>
     <div class="hero-copy">
-      <p class="eyebrow">Engineering leadership · AI · transformation</p>
+      <p class="eyebrow">Engineering leadership / AI adoption</p>
       <h1>I build systems that<br />survive pressure.</h1>
       <p class="hero-summary">
-        Technology, operating models, and teams designed to remain useful when
-        scale and uncertainty arrive.
+        I’m Sunith Kumar Kokku. I work across technology, teams, and operating
+        models to make complex change dependable.
       </p>
-      <a class="hero-link" href={contentHref('thinking', featured.id)}>
-        Read the latest thinking <span aria-hidden="true">↗</span>
-      </a>
+      <div class="hero-actions">
+        <a class="hero-link" href="#work">Explore my work <span aria-hidden="true">↗</span></a>
+        <a class="hero-link hero-link-secondary" href="https://www.linkedin.com/in/sunith-kumar-k/" target="_blank" rel="noopener noreferrer">LinkedIn <span aria-hidden="true">↗</span></a>
+      </div>
     </div>
   </section>
 
+  <section class="focus section" id="focus" aria-labelledby="focus-title">
+    <div class="section-label reveal">
+      <span class="mono">01 / Focus</span>
+      <span class="rule"></span>
+    </div>
+    <div class="focus-intro reveal">
+      <h2 id="focus-title">Make complex work hold together.</h2>
+      <p>My focus is where engineering decisions meet the realities of people, operations, and change.</p>
+    </div>
+    <div class="focus-list">
+      <div class="focus-row reveal">
+        <span class="mono">01</span>
+        <h3>Reliable systems</h3>
+        <p>Build for the conditions a system will actually face, including scale, uncertainty, and failure.</p>
+      </div>
+      <div class="focus-row reveal">
+        <span class="mono">02</span>
+        <h3>Useful AI</h3>
+        <p>Turn promising capability into workflows with clear evaluation, ownership, and economics.</p>
+      </div>
+      <div class="focus-row reveal">
+        <span class="mono">03</span>
+        <h3>Organizational clarity</h3>
+        <p>Give teams the decisions, boundaries, and operating rhythm needed to make progress last.</p>
+      </div>
+    </div>
+  </section>
+
+  {work.length > 0 && (
+    <section class="work section" id="work" aria-labelledby="work-title">
+      <div class="section-label reveal">
+        <span class="mono">02 / Selected work</span>
+        <span class="rule"></span>
+      </div>
+      <div class="work-heading reveal">
+        <h2 id="work-title">The work, in context.</h2>
+        <p>A closer look at problems, decisions, and the products they shaped.</p>
+      </div>
+      <div class="work-list">
+        {work.map((entry) => (
+          <a class="work-item reveal" href={contentHref('work', entry.id)}>
+            <span class="mono">{entry.data.period} / {entry.data.role}</span>
+            <h3>{entry.data.title}</h3>
+            <p>{entry.data.summary}</p>
+            <span class="read-link">Read the story <span aria-hidden="true">↗</span></span>
+          </a>
+        ))}
+      </div>
+    </section>
+  )}
+
   <section class="thinking section" id="thinking">
     <div class="section-label reveal">
-      <span class="mono">01 / Thinking</span>
+      <span class="mono">03 / Thinking</span>
       <span class="rule"></span>
     </div>
 
@@ -87,17 +144,24 @@ const formatDate = (date: Date) =>
   {expeditions.length > 0 && (
     <section class="expeditions section" id="expeditions">
       <div class="section-label reveal">
-        <span class="mono">02 / Expeditions</span>
+        <span class="mono">04 / Beyond work</span>
         <span class="rule"></span>
       </div>
       {expeditions.map((expedition) => (
         <a
-          class="expedition-card reveal"
+          class:list={['expedition-card', 'reveal', { 'no-image': !expedition.data.heroImage }]}
           href={contentHref('expeditions', expedition.id)}
         >
-          <div class="expedition-image" style={`background-image: url('${expedition.data.heroImage}')`}>
-            <div class="expedition-overlay"></div>
-          </div>
+          {expedition.data.heroImage ? (
+            <div class="expedition-image" style={`background-image: url('${expedition.data.heroImage}')`}>
+              <div class="expedition-overlay"></div>
+            </div>
+          ) : (
+            <div class="expedition-type" aria-hidden="true">
+              <span class="mono">Field note / {formatDate(expedition.data.date)}</span>
+              <strong>{expedition.data.elevation}</strong>
+            </div>
+          )}
           <div class="expedition-copy">
             <span class="mono">{expedition.data.region} · {expedition.data.elevation}</span>
             <h2>{expedition.data.mountain}</h2>
@@ -108,6 +172,21 @@ const formatDate = (date: Date) =>
       ))}
     </section>
   )}
+
+  <section class="contact section" id="contact" aria-labelledby="contact-title">
+    <div class="section-label reveal">
+      <span class="mono">05 / Contact</span>
+      <span class="rule"></span>
+    </div>
+    <div class="contact-inner reveal">
+      <h2 id="contact-title">What are you building?</h2>
+      <p>I’m open to conversations about engineering leadership roles and thoughtful consulting work.</p>
+      <div class="contact-links">
+        <a href="mailto:sunith07@gmail.com?subject=Let's%20talk%20about%20working%20together">Start a conversation <span aria-hidden="true">↗</span></a>
+        <a href="https://www.linkedin.com/in/sunith-kumar-k/" target="_blank" rel="noopener noreferrer">View LinkedIn <span aria-hidden="true">↗</span></a>
+      </div>
+    </div>
+  </section>
 
   <ScrollReveal />
 </BaseLayout>
@@ -137,7 +216,7 @@ const formatDate = (date: Date) =>
   .brand img {
     width: 1.8rem;
     height: auto;
-    filter: brightness(1.35) contrast(1.08);
+    filter: brightness(0) invert(1);
   }
 
   .masthead nav {
@@ -160,8 +239,18 @@ const formatDate = (date: Date) =>
     min-height: 100dvh;
     display: flex;
     align-items: flex-end;
-    background: var(--color-bg) url('/images/portrait_landscape.jpg') center / cover no-repeat;
+    background: var(--color-bg);
     isolation: isolate;
+  }
+
+  .hero-portrait {
+    position: absolute;
+    inset: 0 0 0 auto;
+    z-index: -2;
+    width: 62%;
+    background: url('/images/portrait_landscape.jpg') center / cover no-repeat;
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 22%);
+    mask-image: linear-gradient(90deg, transparent, #000 22%);
   }
 
   .hero-shade {
@@ -170,7 +259,7 @@ const formatDate = (date: Date) =>
     z-index: -1;
     background:
       linear-gradient(180deg, rgba(10, 10, 10, 0.82) 0%, transparent 32%),
-      linear-gradient(90deg, rgba(10, 10, 10, 0.9) 0%, rgba(10, 10, 10, 0.3) 62%, rgba(10, 10, 10, 0.5) 100%),
+      linear-gradient(90deg, rgba(10, 10, 10, 0.86) 0%, rgba(10, 10, 10, 0.75) 55%, rgba(10, 10, 10, 0.08) 72%, rgba(10, 10, 10, 0.38) 100%),
       linear-gradient(0deg, var(--color-bg) 0%, transparent 48%);
   }
 
@@ -226,6 +315,17 @@ const formatDate = (date: Date) =>
     animation: enter 1000ms 550ms forwards;
   }
 
+  .hero-actions {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0 var(--space-lg);
+  }
+
+  .hero-link-secondary {
+    color: var(--color-text-secondary);
+  }
+
   @keyframes enter {
     from { opacity: 0; transform: translateY(1.25rem); }
     to { opacity: 1; transform: translateY(0); }
@@ -249,6 +349,88 @@ const formatDate = (date: Date) =>
     height: 1px;
     flex: 1;
     background: var(--color-border);
+  }
+
+  .focus-intro,
+  .work-heading {
+    display: grid;
+    grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr);
+    align-items: end;
+    gap: var(--space-xl);
+    margin-bottom: var(--space-xl);
+  }
+
+  .focus-intro h2,
+  .work-heading h2 {
+    max-width: 14ch;
+    font-size: clamp(2.5rem, 5vw, 4.5rem);
+  }
+
+  .focus-intro p,
+  .work-heading p {
+    max-width: 34ch;
+    color: var(--color-text-secondary);
+  }
+
+  .focus-list {
+    border-top: 1px solid var(--color-border);
+  }
+
+  .focus-row {
+    display: grid;
+    grid-template-columns: 3rem minmax(0, 0.9fr) minmax(0, 1.1fr);
+    gap: var(--space-lg);
+    align-items: baseline;
+    padding: var(--space-lg) 0;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .focus-row h3 {
+    font-size: clamp(1.5rem, 2.5vw, 2.2rem);
+    font-weight: 400;
+    line-height: 1.2;
+  }
+
+  .focus-row p {
+    max-width: 34ch;
+    color: var(--color-text-secondary);
+    font-size: 1.05rem;
+  }
+
+  .work-list {
+    border-top: 1px solid var(--color-border);
+  }
+
+  .work-item {
+    display: grid;
+    grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+    gap: var(--space-md) var(--space-xl);
+    padding: var(--space-lg) 0;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .work-item > .mono {
+    grid-row: span 3;
+  }
+
+  .work-item h3 {
+    font-size: clamp(2rem, 4vw, 3.5rem);
+    font-weight: 400;
+    line-height: 1.1;
+    transition: color var(--transition-slow);
+  }
+
+  .work-item p {
+    max-width: 42ch;
+    color: var(--color-text-secondary);
+  }
+
+  .work-item .read-link {
+    margin-top: var(--space-sm);
+  }
+
+  .work-item:hover h3 {
+    color: var(--color-accent);
   }
 
   .featured {
@@ -311,6 +493,23 @@ const formatDate = (date: Date) =>
     overflow: hidden;
   }
 
+  .expedition-type {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 24rem;
+    padding: var(--space-xl);
+    background: radial-gradient(circle at 70% 65%, #252525, #111 62%);
+  }
+
+  .expedition-type strong {
+    font-family: var(--font-family);
+    font-size: clamp(4.5rem, 10vw, 8rem);
+    font-weight: 400;
+    letter-spacing: -0.07em;
+    line-height: 1;
+  }
+
   .expedition-overlay {
     position: absolute;
     inset: 0;
@@ -334,11 +533,45 @@ const formatDate = (date: Date) =>
     font-size: 1.05rem;
   }
 
+  .contact {
+    padding-bottom: var(--space-2xl);
+  }
+
+  .contact-inner h2 {
+    max-width: 15ch;
+    font-size: clamp(3rem, 6vw, 5.5rem);
+  }
+
+  .contact-inner p {
+    max-width: 37ch;
+    margin-top: var(--space-lg);
+    color: var(--color-text-secondary);
+  }
+
+  .contact-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-md) var(--space-lg);
+    margin-top: var(--space-lg);
+  }
+
+  .contact-links a {
+    border-bottom: 1px solid var(--color-accent);
+    padding-bottom: 0.2rem;
+    transition: color var(--transition-slow);
+  }
+
+  .contact-links a:hover {
+    color: var(--color-accent);
+  }
+
   @media (max-width: 760px) {
     .masthead {
       width: 100vw;
       max-width: none;
       padding-top: var(--space-md);
+      padding-bottom: var(--space-lg);
+      background: linear-gradient(180deg, rgba(10, 10, 10, 0.88), rgba(10, 10, 10, 0.55) 55%, transparent);
     }
 
     .brand span {
@@ -351,15 +584,22 @@ const formatDate = (date: Date) =>
     }
 
     .hero {
-      min-height: 90dvh;
-      background-position: 58% center;
+      min-height: 100dvh;
+    }
+
+    .hero-portrait {
+      bottom: auto;
+      width: 100%;
+      height: 52dvh;
+      background-position: 42% center;
+      -webkit-mask-image: linear-gradient(180deg, #000 0%, #000 58%, transparent 100%);
+      mask-image: linear-gradient(180deg, #000 0%, #000 58%, transparent 100%);
     }
 
     .hero-shade {
       background:
-        linear-gradient(180deg, rgba(10, 10, 10, 0.75) 0%, transparent 28%),
-        linear-gradient(0deg, var(--color-bg) 0%, rgba(10, 10, 10, 0.2) 66%),
-        linear-gradient(90deg, rgba(10, 10, 10, 0.72), transparent);
+        linear-gradient(180deg, rgba(10, 10, 10, 0.7) 0%, transparent 24%),
+        linear-gradient(0deg, var(--color-bg) 0%, transparent 54%);
     }
 
     .hero h1 {
@@ -373,6 +613,29 @@ const formatDate = (date: Date) =>
 
     .section {
       padding-top: var(--space-2xl);
+    }
+
+    .focus-intro,
+    .work-heading {
+      grid-template-columns: 1fr;
+      gap: var(--space-md);
+    }
+
+    .focus-row {
+      grid-template-columns: 2rem 1fr;
+      gap: var(--space-sm) var(--space-md);
+    }
+
+    .focus-row p {
+      grid-column: 2;
+    }
+
+    .work-item {
+      grid-template-columns: 1fr;
+    }
+
+    .work-item > .mono {
+      grid-row: auto;
     }
 
     .featured h2 {
@@ -391,6 +654,11 @@ const formatDate = (date: Date) =>
 
     .expedition-image {
       min-height: 18rem;
+    }
+
+    .expedition-type {
+      min-height: 16rem;
+      padding: var(--space-lg);
     }
 
     .expedition-overlay {

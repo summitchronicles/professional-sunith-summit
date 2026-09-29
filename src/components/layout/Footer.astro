@@ -1,12 +1,21 @@
 <footer class="footer">
-  <a href="mailto:sunith07@gmail.com" class="mono">sunith07@gmail.com</a>
+  <span class="mono">Sunith Kumar Kokku</span>
+  <div class="footer-links">
+    <a href="mailto:sunith07@gmail.com">Email</a>
+    <a href="https://www.linkedin.com/in/sunith-kumar-k/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+  </div>
 </footer>
 
 <style>
   .footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-md);
     padding: var(--space-3xl) var(--content-padding) var(--space-xl);
     max-width: var(--content-width);
     margin: 0 auto;
+    border-top: 1px solid var(--color-border);
   }
 
   .footer a {
@@ -16,5 +25,19 @@
 
   .footer a:hover {
     color: var(--color-text-primary);
+  }
+
+  .footer-links {
+    display: flex;
+    gap: var(--space-lg);
+    font-size: 0.9rem;
+  }
+
+  @media (max-width: 640px) {
+    .footer {
+      flex-direction: column;
+      align-items: flex-start;
+      padding-top: var(--space-xl);
+    }
   }
 </style>

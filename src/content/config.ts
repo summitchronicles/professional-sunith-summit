@@ -12,6 +12,18 @@ const thinking = defineCollection({
   }),
 });
 
+const work = defineCollection({
+  type: 'content',
+  schema: z.object({
+    title: z.string(),
+    period: z.string(),
+    role: z.string(),
+    summary: z.string().max(300),
+    order: z.number().default(0),
+    draft: z.boolean().default(false),
+  }),
+});
+
 const expeditions = defineCollection({
   type: 'content',
   schema: z.object({
@@ -22,10 +34,10 @@ const expeditions = defineCollection({
     country: z.string(),
     date: z.coerce.date(),
     duration: z.string(),
-    heroImage: z.string(),
+    heroImage: z.string().optional(),
     summary: z.string().max(200),
     draft: z.boolean().default(false),
   }),
 });
 
-export const collections = { thinking, expeditions };
+export const collections = { work, thinking, expeditions };

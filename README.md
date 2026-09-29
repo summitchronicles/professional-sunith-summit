@@ -34,6 +34,21 @@ git push origin main
 The deployment can also be started from the repository's **Actions** tab using
 the **Run workflow** button.
 
+## Content Updates
+
+- Edit `src/pages/index.astro` for homepage copy and layout.
+- Add an `.mdx` file in `src/content/work/` for a new case study. Include
+  `title`, `period`, `role`, and `summary` in its frontmatter. Set `order` to
+  control its position on the homepage.
+- Add essays in `src/content/thinking/`. Set `draft: true` while preparing a
+  piece; drafts are not built as public pages.
+- Run `npm run build` before pushing to catch content errors locally.
+
+Work stories should describe real decisions and confirmed outcomes. The first
+published story, Summit Chronicles, is based on the project's public LinkedIn
+description. Employer work should only be added when details are approved for
+public use.
+
 ## Custom Domain
 
 The `is-a.dev` DNS record must point to GitHub Pages:

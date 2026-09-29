@@ -25,6 +25,11 @@ const {
 <html lang="en">
   <head>
     <SEOHead title={title} description={description} ogImage={ogImage} />
+    <script is:inline>
+      if ('IntersectionObserver' in window && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        document.documentElement.classList.add('motion-ready');
+      }
+    </script>
   </head>
   <body>
     {showHeader && <Header />}
