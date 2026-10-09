@@ -14,7 +14,7 @@ const {
 } = Astro.props;
 
 const siteTitle = 'Sunith Kumar Kokku';
-const fullTitle = title.includes(siteTitle) ? title : `${title} — ${siteTitle}`;
+const fullTitle = title.includes(siteTitle) ? title : `${title} | ${siteTitle}`;
 const canonical = canonicalUrl || Astro.url.href;
 const socialImage = new URL(ogImage, Astro.url).href;
 const iconVersion = '20260224';
@@ -65,7 +65,7 @@ const iconPath = (path: string) => `${path}?v=${iconVersion}`;
 <meta property="og:title" content={fullTitle} />
 <meta property="og:description" content={description} />
 <meta property="og:image" content={socialImage} />
-<meta property="og:image:alt" content="Sunith Kumar Kokku — engineering leadership and AI adoption" />
+<meta property="og:image:alt" content="Sunith Kumar Kokku, engineering leadership and AI delivery" />
 <meta property="og:url" content={canonical} />
 
 <!-- Twitter -->

@@ -16,7 +16,7 @@ const { Content } = await render(entry);
 const { mountain, elevation, region, country, date, duration, heroImage } = entry.data;
 ---
 
-<BaseLayout title={`${mountain} — Expeditions`} description={entry.data.summary}>
+<BaseLayout title={`${mountain} | Expeditions`} description={entry.data.summary}>
   <article class="expedition">
     <header class="expedition-header">
       <a href="/#expeditions" class="back-link mono reveal">&larr; Expeditions</a>
