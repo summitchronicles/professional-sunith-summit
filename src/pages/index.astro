@@ -15,6 +15,35 @@ const work = (await getCollection('work', ({ data }) => !data.draft)).sort(
   (a, b) => a.data.order - b.data.order
 );
 const expeditions = await getCollection('expeditions', ({ data }) => !data.draft);
+const contactNumber = expeditions.length > 0 ? '06' : '05';
+
+const record = [
+  {
+    meta: 'Evernorth / 2026 to now',
+    title: 'Operating model and AI strategy',
+    body: 'Built the enterprise operating model and the AI strategy that served as the base before an AI CoE was set up. I now lead consulting on engineering excellence, AI strategy, and moving capabilities from the US to the GCCs.',
+  },
+  {
+    meta: 'Thomson Reuters / 2023 to 2026',
+    title: '1 to 300 engineers',
+    body: 'Grew the India hub from 1 to 300 engineers across a $40M portfolio, and on-time delivery moved from 65% to 89%. The hardest call was moving system knowledge from vendor staff into the TR team, and the business ended up more independent.',
+  },
+  {
+    meta: 'Pegasystems / 2022 to 2023',
+    title: 'Delivery for Australia and New Zealand',
+    body: 'Led delivery with government and defence clients. It was high-pressure work, and the team kept overachieving.',
+  },
+  {
+    meta: 'Accenture / 2020 to 2022',
+    title: '$250K to $15M',
+    body: 'Took on the regional leader role for the Google portfolio from India. We grew the portfolio from $250K to $15M and the team from 1 to 80+, and I learned budgets, billing, margin and hiring on the job.',
+  },
+  {
+    meta: 'Thomson Reuters / 2012 to 2020',
+    title: 'Legal data, testing, delivery',
+    body: 'Started as a publishing specialist on legal data used by some of the highest courts in the world. About two years in testing taught me that unclear requirements become bugs. From there I moved into product, project and engineering management.',
+  },
+];
 
 const contentHref = (section: string, id: string) =>
   `/${section}/${id.replace(/\.(mdx?|md)$/, '')}/`;
@@ -23,8 +52,8 @@ const formatDate = (date: Date) =>
 ---
 
 <BaseLayout
-  title="Sunith Kumar Kokku | Engineering leadership and AI"
-  description="Engineering leadership, AI adoption, and reliable systems. Explore Sunith Kumar Kokku's work, writing, and approach."
+  title="Sunith Kumar Kokku | Engineering leadership, GCCs and AI delivery"
+  description="I build systems that survive pressure. Engineering and delivery leadership at Thomson Reuters, Accenture, Pegasystems and Evernorth. Open to engineering leadership roles and consulting."
   showHeader={false}
 >
   <header class="masthead">
@@ -49,14 +78,14 @@ const formatDate = (date: Date) =>
     <div class="hero-portrait" aria-hidden="true"></div>
     <div class="hero-shade" aria-hidden="true"></div>
     <div class="hero-copy">
-      <p class="eyebrow">Engineering leadership / AI adoption</p>
+      <p class="eyebrow">Engineering and GCC leadership / AI delivery</p>
       <h1>I build systems that<br />survive pressure.</h1>
       <p class="hero-summary">
         I’m Sunith Kumar Kokku. I work across technology, teams, and operating
         models to make complex change dependable.
       </p>
       <div class="hero-actions">
-        <a class="hero-link" href="#work">Explore my work <span aria-hidden="true">↗</span></a>
+        <a class="hero-link" href="#work">See the track record <span aria-hidden="true">↗</span></a>
         <a class="hero-link hero-link-secondary" href="https://www.linkedin.com/in/sunith-kumar-k/" target="_blank" rel="noopener noreferrer">LinkedIn <span aria-hidden="true">↗</span></a>
       </div>
     </div>
@@ -90,15 +119,35 @@ const formatDate = (date: Date) =>
     </div>
   </section>
 
+  <section class="work section" id="work" aria-labelledby="work-title">
+    <div class="section-label reveal">
+      <span class="mono">02 / Track record</span>
+      <span class="rule"></span>
+    </div>
+    <div class="work-heading reveal">
+      <h2 id="work-title">Where I've done the work.</h2>
+      <p>Engineering and delivery leadership since 2012, at Thomson Reuters, Accenture, Pegasystems and Evernorth.</p>
+    </div>
+    <div class="work-list">
+      {record.map((item) => (
+        <div class="work-item record-item reveal">
+          <span class="mono">{item.meta}</span>
+          <h3>{item.title}</h3>
+          <p>{item.body}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+
   {work.length > 0 && (
-    <section class="work section" id="work" aria-labelledby="work-title">
+    <section class="work section" id="projects" aria-labelledby="projects-title">
       <div class="section-label reveal">
-        <span class="mono">02 / Selected work</span>
+        <span class="mono">03 / Independent work</span>
         <span class="rule"></span>
       </div>
       <div class="work-heading reveal">
-        <h2 id="work-title">The work, in context.</h2>
-        <p>A closer look at problems, decisions, and the products they shaped.</p>
+        <h2 id="projects-title">Things I build myself.</h2>
+        <p>Personal builds where I try data pipelines and AI tooling end to end.</p>
       </div>
       <div class="work-list">
         {work.map((entry) => (
@@ -115,7 +164,7 @@ const formatDate = (date: Date) =>
 
   <section class="thinking section" id="thinking">
     <div class="section-label reveal">
-      <span class="mono">03 / Thinking</span>
+      <span class="mono">04 / Thinking</span>
       <span class="rule"></span>
     </div>
 
@@ -144,7 +193,7 @@ const formatDate = (date: Date) =>
   {expeditions.length > 0 && (
     <section class="expeditions section" id="expeditions">
       <div class="section-label reveal">
-        <span class="mono">04 / Beyond work</span>
+        <span class="mono">05 / Beyond work</span>
         <span class="rule"></span>
       </div>
       {expeditions.map((expedition) => (
@@ -175,12 +224,12 @@ const formatDate = (date: Date) =>
 
   <section class="contact section" id="contact" aria-labelledby="contact-title">
     <div class="section-label reveal">
-      <span class="mono">05 / Contact</span>
+      <span class="mono">{contactNumber} / Contact</span>
       <span class="rule"></span>
     </div>
     <div class="contact-inner reveal">
       <h2 id="contact-title">What are you building?</h2>
-      <p>I’m open to conversations about engineering leadership roles and thoughtful consulting work.</p>
+      <p>I’m open to engineering leadership roles and consulting work on delivery reliability, AI adoption, and GCC operating models.</p>
       <div class="contact-links">
         <a href="mailto:sunith07@gmail.com?subject=Let's%20talk%20about%20working%20together">Start a conversation <span aria-hidden="true">↗</span></a>
         <a href="https://www.linkedin.com/in/sunith-kumar-k/" target="_blank" rel="noopener noreferrer">View LinkedIn <span aria-hidden="true">↗</span></a>
@@ -429,7 +478,11 @@ const formatDate = (date: Date) =>
     margin-top: var(--space-sm);
   }
 
-  .work-item:hover h3 {
+  .record-item h3 {
+    font-size: clamp(1.6rem, 3vw, 2.6rem);
+  }
+
+  a.work-item:hover h3 {
     color: var(--color-accent);
   }
 
