@@ -14,7 +14,9 @@
       });
     },
     {
-      threshold: 0.1,
+      // Use a zero threshold so very tall elements (e.g., long article bodies)
+      // become visible as soon as any part enters the viewport on small screens.
+      threshold: 0,
       rootMargin: '0px 0px -50px 0px',
     }
   );
