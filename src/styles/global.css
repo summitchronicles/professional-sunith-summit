@@ -59,6 +59,33 @@ h2 {
   font-style: italic;
 }
 
+/* Lists inside long-form content */
+.prose ul,
+.prose ol {
+  margin: var(--space-md) 0 var(--space-lg);
+  padding-left: 1.25rem;
+}
+.prose ul {
+  list-style: disc outside;
+}
+.prose ol {
+  list-style: decimal outside;
+}
+.prose li {
+  margin: 0.25rem 0;
+}
+
+/* Subsection labels authored as a single bold line become visual subheadings */
+.prose p > strong:only-child {
+  display: block;
+  margin-top: var(--space-lg);
+  margin-bottom: var(--space-sm);
+  color: var(--color-text-primary);
+  font-style: normal; /* override italic for headings */
+  font-size: clamp(1.15rem, 2.2vw, 1.5rem);
+  letter-spacing: -0.01em;
+}
+
 .mono {
   font-family: var(--font-mono);
   font-size: 0.85rem;
