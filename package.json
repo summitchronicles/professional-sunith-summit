@@ -6,12 +6,17 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "test:content": "playwright test -c playwright.config.ts"
   },
   "dependencies": {
     "@astrojs/mdx": "^4.3.13",
     "@astrojs/sitemap": "^3.7.0",
     "astro": "^5.17.1",
     "sharp": "^0.34.5"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.48.2",
+    "marked": "^12.0.2"
   }
 }
