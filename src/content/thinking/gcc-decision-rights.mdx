@@ -1,0 +1,80 @@
+---
+title: "Who makes the call: decision rights on the way from delivery centre to innovation centre"
+publishDate: "2026-11-01"
+summary: "Survey data from HFS and ANSR, EY and Dun & Bradstreet shows India GCCs running products while the calls that shape them stay at HQ. A practical view of how decision rights move, and a working checklist for sponsors and site leaders."
+readingTime: 8
+draft: false
+---
+
+Most GCC leaders I talk to describe the same goal. The centre started as a global delivery centre, it now runs a good share of the enterprise's technology, and the plan is for it to become a global innovation centre that owns capabilities end to end. The surveys published over the last year agree on where most centres are on that path, and the picture is consistent enough that it's worth putting in one place.
+
+This essay pulls together what three sources say about ownership and decision rights in India GCCs, how that middle stage looks from inside a centre, and what I'd put in place before calling a capability owned. The last section is a working checklist for site leaders and their HQ sponsors.
+
+## Where the surveys put most centres
+
+HFS Research and ANSR published their first Generative GCC Index in July 2026, based on a pulse survey of 47 GCC leaders in India run in May and June. Asked what level of ownership their centre holds over enterprise products or platforms, 15 percent said they own products end to end. 41 percent said they contribute to enterprise platforms, 37 percent own modules or components, and 7 percent provide execution support with no ownership ([HFS and ANSR, Exhibit 7](https://www.hfsresearch.com/research/indias-gcc-pulse-index/)). In the same survey, 51 percent agreed their centre owns global platforms or products, which suggests a fair number of leaders count owning a module as owning the product ([HFS and ANSR, Exhibit 9](https://www.hfsresearch.com/research/indias-gcc-pulse-index/)). HFS adds that even where a GCC builds key modules, roadmap sign-offs and budget decisions largely stay with headquarters.
+
+EY's GCC Pulse Survey 2025 asked more than 65 GCC leaders, with centres in India and in hubs such as Mexico and Poland, about their mandate. 87 percent listed increased ownership of end-to-end global processes as part of it. When the same leaders described their influence on global decisions, 20 percent reported full ownership in select areas, 52 percent described shared accountability and 26 percent said their centre is consulted ([EY, pp. 11 and 12](https://www.ey.com/content/dam/ey-unified-site/ey-com/en-in/insights/consullting/global-capability-centers/documents/ey-global-capability-center-gcc-pulse-survey-november-2025.pdf)).
+
+Dun & Bradstreet India's 2026 report, Signals of Change, surveyed senior leaders at more than 120 GCCs across nine Indian cities and asked which decisions the centre holds full authority over. 51 percent said operational decisions and 37 percent said vendor and partner selection. For technology investments the figure was 12 percent, and for capex budgeting 11 percent ([D&B, Hyderabad edition p. 31](https://www.dnb.co.in/files/reports/Global-Capability-Center-Hyderabad-2026.pdf)). D&B's reading is that autonomy follows how close a decision sits to day-to-day delivery, and that headquarters keeps tighter control as decisions move toward budgets and technology direction.
+
+Back in the HFS survey, leaders were asked what currently limits their centre's effectiveness and evolution. Talent availability came first at 34 percent. Limited decision-making autonomy was named by 28 percent, and alignment with HQ and stakeholders by 28 percent as well ([HFS and ANSR, Exhibit 10](https://www.hfsresearch.com/research/indias-gcc-pulse-index/)). Respondents could choose more than one answer, and with 47 people a six-point gap is small. HFS reads it as organizational constraints now rivalling talent constraints.
+
+These are self-reported surveys with modest samples, run by firms that also sell GCC research and set-up services, and the questions differ from one to the next. I wouldn't add them up. Read side by side, they describe a large group of centres that run the work, often run it well, and hand the consequential calls back to HQ.
+
+## What the middle stage looks like from inside
+
+From the operator's seat this stage is easy to recognise. The India team carries on-call and knows how the systems behave in production. The roadmap sign-off and the release date are decided in another time zone. A routine schema change waits for a reviewer at HQ, and an architecture change of any size goes through the same review as a technology investment because it usually has spend attached. The D&B survey doesn't ask about architecture or release calls separately, so that link is my own reading of how most enterprises route spend.
+
+Shared accountability, the largest group in the EY data, is a reasonable place for a centre partway through the transition. The cost shows up in the calendar. A decision that needs both sides in the room waits for the overlap hours and the next review. Over a few quarters the India team becomes very good at preparing options and HQ keeps choosing between them. The work has moved up while the calls that make a capability owned still sit at headquarters.
+
+Two other patterns keep a centre in this stage. The mandate can say innovation while the scorecard still counts cost per head, and a site tends to optimise for what it is scored on. Delegation also tends to be written at the level of the mandate, so a role change at HQ can take part of it back. A RACI and a steering cadence can both exist while product and architecture calls still go back for sign-off.
+
+Compare how the two biggest constraints in the HFS data get handled. A talent gap usually has a hiring plan and a number HQ looks at every month. A decision the centre is waiting on HQ to make rarely has either. It sits on a meeting agenda while the India team asks for more people to work around the delay.
+
+## How decision rights move in practice
+
+The surveys suggest a sequence that most enterprises follow anyway. Operational authority moves first, vendor selection after it, and technology spend and capex much later. I'd plan the transfer along that same line, one capability at a time, and make each step something HQ can see and review.
+
+Start with a product the centre already builds most of. Move the roadmap sign-off and production support for it to India on the same date. When those move separately, the India team tends to end up answering for incidents on a roadmap it didn't set, or setting a roadmap for a service someone else answers for. Measure the product with the business numbers HQ already tracks for it, and record the baseline on the day ownership moves, so nobody has to reconstruct it later.
+
+For architecture, delegate decisions on the products India already runs, within the technology budget HQ has already approved for them. Ask the India lead to keep a written log of each call and the reasoning behind it, and go through that log with the HQ CTO every quarter. A few quarters of that log is a better basis for moving the next budget line than any charter language.
+
+Tie each delegated decision to the service and to whoever holds its on-call. Written that way, it survives a reorg on either side. Release approval is the one I'd write down first, because it comes up every sprint. It needs a named owner in India and a short list of cases that still go to HQ, revisited after two quarters, since the boundaries tend to move once the team owns production. Kshama Dhir of Kroll, interviewed in the D&B report, suggests setting autonomy by risk threshold, for example letting the centre own any vendor decision under a defined value with no data-residency implications ([D&B, NCR edition pp. 37 to 38](https://www.dnb.co.in/files/reports/Global-Capability-Center-NCR-2026.pdf)). That kind of threshold is easier to keep stable than a list of named approvers.
+
+Finally, make the waiting visible. Keep a list of decisions the centre is waiting on HQ for, with the date each was raised and the person at HQ who holds it, and take it to the same quarterly review where hiring is discussed. Before describing a centre as owning a process, look at the last ten decisions made on it, such as a change to scope, a vendor, a release date or a control, and count how many the India lead made without escalating. If the answer is one or two, the charter and the operating rhythm disagree, and the operating rhythm is the accurate one.
+
+## A working checklist for sponsors and site leaders
+
+This is a first version. I expect it to change as the series moves on to talent and measurement.
+
+**Ownership scope**
+- Name the capability being transferred, and state whether the centre owns the product end to end or a module of it.
+- Confirm the roadmap sign-off and production support move to India on the same date.
+- Record who answers for the capability after go-live, including on-call and post-release numbers.
+
+**Decision rights**
+- Write down which calls India makes alone for this capability, starting with release approval and architecture changes within the approved budget.
+- Attach each delegated decision to the service and its on-call owner.
+- Keep a short list of cases that still go to HQ, and a date to revisit it.
+- Set a risk or value threshold for vendor and spend decisions, with data-residency cases called out.
+
+**Evidence**
+- Agree the outcome measure with HQ from numbers HQ already reports, and record the baseline before ownership moves.
+- Keep a decision log for delegated architecture calls, with reasoning, reviewed quarterly with the HQ CTO.
+- Keep a waiting-on-HQ list with date raised and HQ owner, reviewed alongside hiring.
+- Every quarter, count how many of the last ten decisions on an owned process the India lead made without escalating.
+
+**Scorecard**
+- Check the centre's scorecard against its mandate. If the mandate says ownership and the scorecard counts cost per head, change the scorecard first.
+
+A sponsor who can fill in each line for one capability has a clear picture of what the centre owns today and what moves next. I'll keep refining this and publish a one-page version at the end of the series.
+
+## Sources
+
+1. HFS Research with ANSR, HFS Generative GCC Index 2026: Ownership is the next imperative for India's GCCs (July 2026), Exhibits 7, 9 and 10. https://www.hfsresearch.com/research/indias-gcc-pulse-index/
+2. ANSR, HFS Generative GCC Index 2026 report page. https://ansr.com/ebooks/hfs-generative-gcc-index-2026/
+3. EY, Global Capability Center (GCC) Pulse Survey 2025 (November 2025), pp. 11 and 12. https://www.ey.com/content/dam/ey-unified-site/ey-com/en-in/insights/consullting/global-capability-centers/documents/ey-global-capability-center-gcc-pulse-survey-november-2025.pdf
+4. Dun & Bradstreet India, Signals of Change: Inside India's GCC Evolution (2026), Hyderabad edition, The Autonomy Gap, p. 31. https://www.dnb.co.in/files/reports/Global-Capability-Center-Hyderabad-2026.pdf
+5. Dun & Bradstreet India, Signals of Change (2026), NCR edition, p. 23 and expert view by Kshama Dhir, Kroll, pp. 37 to 38. https://www.dnb.co.in/files/reports/Global-Capability-Center-NCR-2026.pdf
+
