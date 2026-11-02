@@ -25,8 +25,8 @@ const record = [
   },
   {
     meta: 'Thomson Reuters / 2023 to 2026',
-    title: '1 to 300 engineers',
-    body: 'Grew the India hub from 1 to 300 engineers across a $40M portfolio, and on-time delivery moved from 65% to 89%. The hardest call was moving system knowledge from vendor staff into the TR team, and the business ended up more independent.',
+    title: '',
+    body: 'Grew the India hub across a $40M portfolio, and on-time delivery moved from 65% to 89%. The hardest call was moving system knowledge from vendor staff into the TR team, and the business ended up more independent.',
   },
   {
     meta: 'Pegasystems / 2022 to 2023',
@@ -132,7 +132,7 @@ const formatDate = (date: Date) =>
       {record.map((item) => (
         <div class="work-item record-item reveal">
           <span class="mono">{item.meta}</span>
-          <h3>{item.title}</h3>
+            {item.title && <h3>{item.title}</h3>}
           <p>{item.body}</p>
         </div>
       ))}
