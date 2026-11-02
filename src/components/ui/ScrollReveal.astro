@@ -14,14 +14,15 @@
       });
     },
     {
-      // Use a zero threshold so very tall elements (e.g., long article bodies)
-      // become visible as soon as any part enters the viewport on small screens.
+      // Reveal as soon as any part enters the viewport
       threshold: 0,
-      rootMargin: '0px 0px -50px 0px',
+      rootMargin: '0px',
     }
   );
 
   function initReveals() {
+    // Progressive enhancement: only hide after the reveal system is ready
+    document.documentElement.classList.add('motion-ready');
     document.querySelectorAll('.reveal').forEach((el) => {
       observer.observe(el);
     });

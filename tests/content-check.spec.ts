@@ -37,6 +37,27 @@ function routeFromContentPath(p: string): string {
   return `/${collection}/${filename}/`;
 }
 
+function getAllBuiltRoutes(): string[] {
+  const distDir = path.resolve('dist');
+  if (!fs.existsSync(distDir)) return [];
+  const routes: string[] = [];
+  function walk(dir: string, rel = '/') {
+    for (const e of fs.readdirSync(dir, { withFileTypes: true })) {
+      const fp = path.join(dir, e.name);
+      const rp = path.join(rel, e.name);
+      if (e.isDirectory()) {
+        walk(fp, rp + '/');
+      } else if (e.isFile() && e.name === 'index.html') {
+        const route = rp.replace(/index\.html$/, '');
+        routes.push(route === '/' ? '/' : route);
+      }
+    }
+  }
+  walk(distDir, '/');
+  // De-dup and normalize trailing slashes
+  return Array.from(new Set(routes.map((r) => (r.endsWith('/') ? r : r + '/'))));
+}
+
 async function countDom(page, selectorRoot: string): Promise<Counts> {
   return await page.evaluate((rootSel) => {
     const root = document.querySelector(rootSel) || document;
@@ -141,6 +162,82 @@ test('content pages render structure and visibility correctly', async ({ page, b
       return hidden;
     }, '.essay-body, .prose');
     expect(hiddenCount, `hidden elements after scroll in ${route}`).toBe(0);
+  }
+});
+
+test('site pages have no hidden content, no overflow, and hero/header layout is sound', async ({ page }) => {
+  const routes = getAllBuiltRoutes().filter((r) => !r.startsWith('/404'));
+  expect(routes.length, 'No built routes found').toBeGreaterThan(0);
+  fs.mkdirSync(screenshotsDir, { recursive: true });
+
+  for (const route of routes) {
+    for (const w of [390, 1280]) {
+      await page.setViewportSize({ width: w, height: 800 });
+      await page.goto(route, { waitUntil: 'networkidle' });
+      await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
+      await page.waitForTimeout(100);
+      await page.screenshot({
+        path: path.join(screenshotsDir, `page-${route.replace(/\W+/g, '-')}-${w}.png`),
+        fullPage: false,
+      });
+
+      // No hidden content after scroll (whole main area)
+      const hiddenCount = await page.evaluate(() => {
+        const root = document.querySelector('main') || document.body;
+        const nodes = root.querySelectorAll<HTMLElement>('*');
+        let hidden = 0;
+        nodes.forEach((el) => {
+          const cs = window.getComputedStyle(el);
+          if (cs.opacity === '0' || cs.visibility === 'hidden') hidden++;
+        });
+        return hidden;
+      });
+      expect(hiddenCount, `hidden elements after scroll in ${route} @${w}`).toBe(0);
+
+      // No horizontal overflow
+      const overflowOK = await page.evaluate(() => {
+        const doc = document.documentElement;
+        return doc.scrollWidth <= window.innerWidth + 1; // allow 1px rounding
+      });
+      expect(overflowOK, `horizontal overflow in ${route} @${w}`).toBeTruthy();
+
+      // Header vs hero overlap checks (where applicable)
+      const hasMasthead = await page.$('.masthead');
+      const hasHero = await page.$('.hero');
+      if (hasMasthead && hasHero) {
+        const headerBottom = await page.evaluate(() => {
+          const h = document.querySelector('.masthead') as HTMLElement | null;
+          if (!h) return 0;
+          return h.getBoundingClientRect().bottom;
+        });
+        const kickerTop = await page.evaluate(() => {
+          const el = document.querySelector('.hero .eyebrow') as HTMLElement | null;
+          return el ? el.getBoundingClientRect().top : null;
+        });
+        const h1Top = await page.evaluate(() => {
+          const el = document.querySelector('.hero h1') as HTMLElement | null;
+          return el ? el.getBoundingClientRect().top : null;
+        });
+        if (kickerTop !== null) expect(kickerTop, `kicker overlaps header in ${route} @${w}`).toBeGreaterThanOrEqual(headerBottom - 1);
+        if (h1Top !== null) expect(h1Top, `h1 overlaps header in ${route} @${w}`).toBeGreaterThanOrEqual(headerBottom - 1);
+
+        // Hero image presence if exists (background-image or <img>)
+        const heroBgHasImage = await page.evaluate(() => {
+          const hp = document.querySelector('.hero-portrait') as HTMLElement | null;
+          if (!hp) return null;
+          const bg = window.getComputedStyle(hp).backgroundImage || '';
+          return bg.includes('url(');
+        });
+        if (heroBgHasImage !== null) expect(heroBgHasImage, `hero image missing in ${route} @${w}`).toBeTruthy();
+
+        const heroImgLoaded = await page.evaluate(() => {
+          const img = document.querySelector('.hero img') as HTMLImageElement | null;
+          if (!img) return null;
+          return img.naturalWidth > 0;
+        });
+        if (heroImgLoaded !== null) expect(heroImgLoaded, `hero <img> not loaded in ${route} @${w}`).toBeTruthy();
+      }
+    }
   }
 });
 
