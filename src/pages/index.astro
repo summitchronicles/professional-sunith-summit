@@ -639,6 +639,9 @@ const formatDate = (date: Date) =>
     .hero {
       min-height: 100dvh;
     }
+    .hero-copy { /* keep hero text clear of the masthead */
+      padding-top: var(--space-2xl);
+    }
 
     .hero-portrait {
       bottom: auto;
@@ -658,10 +661,6 @@ const formatDate = (date: Date) =>
     .hero h1 {
       max-width: 10ch;
       font-size: clamp(2.75rem, 12vw, 4.25rem);
-    }
-
-    .hero h1 br {
-      display: none;
     }
 
     .section {
