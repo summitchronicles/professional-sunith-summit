@@ -52,8 +52,8 @@ const formatDate = (date: Date) =>
 ---
 
 <BaseLayout
-  title="Sunith Kumar Kokku | Engineering leadership, GCCs and AI delivery"
-  description="I build systems that survive pressure. Engineering and delivery leadership at Thomson Reuters, Accenture, Pegasystems and Evernorth. Open to engineering leadership roles and consulting."
+  title="Sunith Kumar Kokku | Engineering and Strategy Leader"
+  description="Sunith Kumar Kokku | Engineering and Strategy Leader"
   showHeader={false}
 >
   <header class="masthead">
@@ -79,7 +79,8 @@ const formatDate = (date: Date) =>
     <div class="hero-shade" aria-hidden="true"></div>
     <div class="hero-copy">
       <p class="eyebrow">Engineering and GCC leadership / AI delivery</p>
-      <h1>I build systems that<br />survive pressure.</h1>
+      <h1>Engineering and Strategy Leader</h1>
+      <p class="hero-subline">Open to Chief of Staff roles | GCCs and AI</p>
       <p class="hero-summary">
         I’m Sunith Kumar Kokku. I work across technology, teams, and operating
         models to make complex change dependable.
@@ -347,6 +348,13 @@ const formatDate = (date: Date) =>
     font-size: clamp(1.05rem, 2vw, 1.35rem);
     opacity: 0;
     animation: enter 1000ms 400ms forwards;
+  }
+  .hero-subline {
+    margin-top: var(--space-md);
+    color: var(--color-text-secondary);
+    font-size: 1rem;
+    opacity: 0;
+    animation: enter 1000ms 450ms forwards;
   }
 
   .hero-link,
