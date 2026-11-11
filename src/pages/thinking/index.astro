@@ -1,0 +1,81 @@
+---
+import BaseLayout from '../../components/layout/BaseLayout.astro';
+import ScrollReveal from '../../components/ui/ScrollReveal.astro';
+import { getCollection } from 'astro:content';
+
+const thoughts = (await getCollection('thinking', ({ data }) => !data.draft)).sort(
+  (a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf()
+);
+
+const contentHref = (section: string, id: string) =>
+  `/${section}/${id.replace(/\.(mdx?|md)$/, '')}/`;
+const formatDate = (date: Date) =>
+  new Intl.DateTimeFormat('en', { month: 'short', year: 'numeric' }).format(date);
+---
+
+<BaseLayout title="Thinking" description="Thinking">
+  <article class="essay">
+    <header class="essay-header">
+      <h1 class="reveal">Thinking</h1>
+    </header>
+
+    {thoughts.length > 0 && (
+      <div class="essay-list">
+        {thoughts.map((entry) => (
+          <>
+            <a class="essay-row reveal" href={contentHref('thinking', entry.id)}>
+              <span>{entry.data.title}</span>
+              <span class="mono">{formatDate(entry.data.publishDate)}</span>
+            </a>
+            {entry.data.summary && <p class="reveal">{entry.data.summary}</p>}
+          </>
+        ))}
+      </div>
+    )}
+  </article>
+
+  <ScrollReveal />
+</BaseLayout>
+
+<style>
+  /* Reuse essay page container and header styles */
+  .essay {
+    max-width: var(--measure);
+    margin: 0 auto;
+    padding: 0 var(--content-padding);
+  }
+
+  .essay-header {
+    padding: var(--space-3xl) 0 var(--space-xl);
+  }
+
+  /* Reuse list and row styles from home page */
+  .essay-list {
+    margin-top: var(--space-2xl);
+    border-top: 1px solid var(--color-border);
+  }
+
+  .essay-row {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--space-lg);
+    padding: var(--space-lg) 0;
+    border-bottom: 1px solid var(--color-border);
+    transition: color var(--transition-slow);
+  }
+
+  .essay-list p {
+    margin-top: calc(var(--space-sm) * -1);
+    margin-bottom: var(--space-lg);
+    color: var(--color-text-secondary);
+    max-width: 48ch;
+  }
+
+  @media (max-width: 760px) {
+    .essay-row {
+      align-items: flex-start;
+      flex-direction: column;
+      gap: var(--space-sm);
+    }
+  }
+</style>
