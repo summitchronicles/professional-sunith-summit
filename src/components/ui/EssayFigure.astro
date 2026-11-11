@@ -1,0 +1,62 @@
+---
+// A LinkedIn chart (or any figure) inside an essay, with caption, source line and alt text.
+// Usage in an .mdx essay:
+//   import EssayFigure from '../../components/ui/EssayFigure.astro';
+//   import autonomyGap from '../../assets/images/thinking/gcc-decision-rights/autonomy-gap.png';
+//   <EssayFigure src={autonomyGap} alt="Bar chart: ..." caption="..." source="Source: D&B ..." />
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+
+interface Props {
+  src: ImageMetadata;
+  alt: string;        // required: every value and the source, plain sentences (start from the .alt.txt)
+  caption?: string;   // one sentence: what the reader should take from the figure
+  source: string;     // required: "Source: Publisher, report, year, n" or "Illustrative example"
+  wide?: boolean;     // landscape figures may use the full measure; portrait cards stay narrower
+}
+
+const { src, alt, caption, source, wide = false } = Astro.props;
+if (!alt?.trim()) throw new Error('EssayFigure: alt is required');
+if (!source?.trim()) throw new Error('EssayFigure: source is required');
+---
+
+<figure class:list={['essay-figure', { wide }]}>
+  <Image src={src} alt={alt} widths={[600, 900, 1200]} sizes="(max-width: 40rem) 100vw, 34rem" loading="lazy" decoding="async" />
+  <figcaption>
+    {caption && <span class="caption">{caption}</span>}
+    <span class="source mono">{source}</span>
+  </figcaption>
+</figure>
+
+<style>
+  .essay-figure {
+    margin: var(--space-xl) auto;
+    max-width: 34rem;
+  }
+  .essay-figure.wide {
+    max-width: 100%;
+  }
+  .essay-figure :global(img) {
+    display: block;
+    width: 100%;
+    height: auto;
+    border: 1px solid var(--color-border);
+  }
+  figcaption {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+    margin-top: var(--space-sm);
+  }
+  .caption {
+    color: var(--color-text-secondary);
+    font-size: 1rem;
+    line-height: 1.5;
+  }
+  .source {
+    font-size: 0.7rem;
+    line-height: 1.5;
+    text-transform: none;
+    letter-spacing: 0.02em;
+  }
+</style>

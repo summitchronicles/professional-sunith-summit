@@ -3,6 +3,8 @@ interface Props {
   title: string;
   description: string;
   ogImage?: string;
+  ogImageAlt?: string;
+  ogType?: 'website' | 'article';
   canonicalUrl?: string;
 }
 
@@ -10,6 +12,8 @@ const {
   title,
   description,
   ogImage = '/og-default.jpg',
+  ogImageAlt = 'Sunith Kumar Kokku, engineering leadership and AI delivery',
+  ogType = 'website',
   canonicalUrl,
 } = Astro.props;
 
@@ -61,11 +65,13 @@ const iconPath = (path: string) => `${path}?v=${iconVersion}`;
 />
 
 <!-- Open Graph -->
-<meta property="og:type" content="website" />
+<meta property="og:type" content={ogType} />
 <meta property="og:title" content={fullTitle} />
 <meta property="og:description" content={description} />
 <meta property="og:image" content={socialImage} />
-<meta property="og:image:alt" content="Sunith Kumar Kokku, engineering leadership and AI delivery" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content={ogImageAlt} />
 <meta property="og:url" content={canonical} />
 
 <!-- Twitter -->
@@ -73,6 +79,7 @@ const iconPath = (path: string) => `${path}?v=${iconVersion}`;
 <meta name="twitter:title" content={fullTitle} />
 <meta name="twitter:description" content={description} />
 <meta name="twitter:image" content={socialImage} />
+<meta name="twitter:image:alt" content={ogImageAlt} />
 
 <!-- Prevent indexing of images by AI crawlers -->
 <meta name="robots" content="noai, noimageai" />

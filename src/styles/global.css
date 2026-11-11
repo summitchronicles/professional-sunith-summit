@@ -17,6 +17,14 @@
   font-style: italic;
 }
 
+@font-face {
+  font-family: 'JetBrains Mono';
+  src: url('/fonts/JetBrainsMono-Regular.woff2') format('woff2');
+  font-display: swap;
+  font-weight: 400;
+  font-style: normal;
+}
+
 body {
   font-family: var(--font-family);
   background-color: var(--color-bg);

@@ -8,6 +8,8 @@ interface Props {
   title: string;
   description: string;
   ogImage?: string;
+  ogImageAlt?: string;
+  ogType?: 'website' | 'article';
   showHeader?: boolean;
   showFooter?: boolean;
 }
@@ -16,6 +18,8 @@ const {
   title,
   description,
   ogImage,
+  ogImageAlt,
+  ogType,
   showHeader = true,
   showFooter = true,
 } = Astro.props;
@@ -24,7 +28,13 @@ const {
 <!doctype html>
 <html lang="en">
   <head>
-    <SEOHead title={title} description={description} ogImage={ogImage} />
+    <SEOHead
+      title={title}
+      description={description}
+      ogImage={ogImage}
+      ogImageAlt={ogImageAlt}
+      ogType={ogType}
+    />
   </head>
   <body>
     {showHeader && <Header />}

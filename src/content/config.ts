@@ -8,6 +8,7 @@ const thinking = defineCollection({
     publishDate: z.coerce.date(),
     summary: z.string().max(300),
     readingTime: z.number(),
+    pillar: z.enum(['Reliable systems', 'Useful AI', 'Organizational clarity']).optional(),
     draft: z.boolean().default(false),
   }),
 });
