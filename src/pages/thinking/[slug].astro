@@ -13,11 +13,20 @@ export async function getStaticPaths() {
 
 const { entry } = Astro.props;
 const { Content } = await render(entry);
-const { title, subtitle, readingTime, publishDate } = entry.data;
+const { title, subtitle, readingTime, publishDate, pillar } = entry.data;
+const slug = entry.id.replace(/\.(mdx?|md)$/, '');
+const ogImage = `/og/${slug}.png`;
+const ogImageAlt = `${pillar ? pillar + ' essay' : 'Essay'}: ${title}. Sunith Kumar Kokku.`;
 const published = new Intl.DateTimeFormat('en', { month: 'long', year: 'numeric' }).format(publishDate);
 ---
 
-<BaseLayout title={title} description={entry.data.summary}>
+<BaseLayout
+  title={title}
+  description={entry.data.summary}
+  ogImage={ogImage}
+  ogImageAlt={ogImageAlt}
+  ogType="article"
+>
   <article class="essay">
     <header class="essay-header">
       <a href="/#thinking" class="back-link mono reveal">&larr; Thinking</a>
