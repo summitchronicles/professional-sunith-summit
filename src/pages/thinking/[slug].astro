@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../../components/layout/BaseLayout.astro';
 import ScrollReveal from '../../components/ui/ScrollReveal.astro';
+import NewsletterBlock from '../../components/ui/NewsletterBlock.astro';
 import { getCollection, render } from 'astro:content';
 
 export async function getStaticPaths() {
@@ -38,6 +39,7 @@ const published = new Intl.DateTimeFormat('en', { month: 'long', year: 'numeric'
     <div class="essay-body prose reveal">
       <Content />
     </div>
+    <NewsletterBlock />
   </article>
 
   <ScrollReveal />
