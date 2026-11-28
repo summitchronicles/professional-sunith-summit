@@ -1,0 +1,89 @@
+---
+interface Props {
+  compact?: boolean;
+  class?: string;
+}
+const { compact = false, class: className = '' } = Astro.props;
+const subscribeUrl = 'https://systemsunderpressure.substack.com/subscribe';
+---
+
+{!compact ? (
+  <section class={`newsletter reveal ${className}`.trim()}>
+    <div class="newsletter-title" role="heading" aria-level="2">Systems Under Pressure</div>
+    <p class="newsletter-copy">
+      A free newsletter on engineering, AI and how organizations make decisions when it counts.
+      Issue 1: Why AI pilots stall in a GCC.
+    </p>
+    <p>
+      <a class="newsletter-button" href={subscribeUrl} target="_blank" rel="noopener noreferrer">
+        Subscribe on Substack
+      </a>
+    </p>
+  </section>
+) : (
+  <div class={`newsletter-compact ${className}`.trim()}>
+    <a class="newsletter-link" href={subscribeUrl} target="_blank" rel="noopener noreferrer">
+      Subscribe on Substack
+    </a>
+  </div>
+)}
+
+<style>
+  .newsletter {
+    margin: var(--space-2xl) auto 0;
+    padding: var(--space-xl);
+    border: 1px solid var(--color-border);
+    background: var(--color-surface);
+    border-radius: 12px;
+    max-width: var(--measure);
+  }
+
+  .newsletter-title {
+    font-size: clamp(1.4rem, 2.5vw + 0.5rem, 2rem);
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    margin: 0 0 var(--space-sm) 0;
+    font-weight: 400;
+  }
+
+  .newsletter-copy {
+    margin: 0 0 var(--space-lg) 0;
+    color: var(--color-text-secondary);
+    line-height: 1.7;
+  }
+
+  .newsletter-button {
+    display: inline-block;
+    padding: 0.65rem 1rem;
+    border: 1px solid var(--color-accent);
+    color: var(--color-text-primary);
+    text-decoration: none;
+    border-radius: 8px;
+    transition: background-color var(--transition-slow), color var(--transition-slow), border-color var(--transition-slow);
+    background: transparent;
+  }
+
+  .newsletter-button:hover {
+    background: var(--color-accent-muted);
+    border-color: var(--color-accent);
+  }
+
+  /* Compact variant for footer or tight spots */
+  .newsletter-compact {
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .newsletter-link {
+    color: var(--color-text-muted);
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: color var(--transition-slow), border-color var(--transition-slow);
+  }
+
+  .newsletter-link:hover {
+    color: var(--color-text-primary);
+    border-color: var(--color-accent);
+  }
+</style>
+

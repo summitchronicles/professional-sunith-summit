@@ -1,8 +1,12 @@
+---
+import NewsletterBlock from '../ui/NewsletterBlock.astro';
+---
 <footer class="footer">
   <span class="mono">Sunith Kumar Kokku</span>
   <div class="footer-links">
     <a href="mailto:sunith07@gmail.com">Email</a>
     <a href="https://www.linkedin.com/in/sunith-kumar-k/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+    <NewsletterBlock compact class="footer-newsletter" />
   </div>
 </footer>
 
@@ -32,12 +36,19 @@
     gap: var(--space-lg);
     font-size: 0.9rem;
   }
+  .footer-newsletter :global(.newsletter-link) {
+    font-size: 0.9rem;
+  }
 
   @media (max-width: 640px) {
     .footer {
       flex-direction: column;
       align-items: flex-start;
       padding-top: var(--space-xl);
+    }
+    .footer-links {
+      flex-wrap: wrap;
+      gap: var(--space-md);
     }
   }
 </style>
